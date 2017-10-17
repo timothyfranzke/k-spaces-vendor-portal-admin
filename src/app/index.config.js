@@ -30,12 +30,14 @@
           config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token');
           localStorage.setItem('token', token);
         }
-        console.log(config.params);
-        if(config.params === undefined){
-            config.params = {"ApplicationID":"59e0c23a734d1d1c37fbb760"}
-        }else{
-            config.params.push({"ApplicationID":"59e0c23a734d1d1c37fbb760"});
-        }
+          if(!config.url.endsWith('.html') && !config.url.endsWith('.json'))
+          {
+              if(config.params === undefined){
+                  config.params = {"ApplicationID":"59e0c23a734d1d1c37fbb760"}
+              }else{
+                  config.params.push({"ApplicationID":"59e0c23a734d1d1c37fbb760"});
+              }
+          }
 
         return config;
       },

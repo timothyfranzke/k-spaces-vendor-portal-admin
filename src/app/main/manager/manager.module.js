@@ -226,7 +226,7 @@
                 resolve  : {
                     Entities: function (managerService)
                     {
-                        return managerService.getUsers();
+                        return managerService.getEntities();
                     }
                 },
                 bodyClass: 'entities'
@@ -301,9 +301,9 @@
             icon  : 'icon-account-multiple',
             weight: 1
         });
-        msNavigationServiceProvider.saveItem('manager.users', {
-          title: 'Users',
-          state: 'app.manager.users'
+        msNavigationServiceProvider.saveItem('manager.entities', {
+            title: 'Schools',
+            state: 'app.manager.entities'
         });
         msNavigationServiceProvider.saveItem('manager.locations', {
             title: 'Location',
@@ -312,6 +312,10 @@
         msNavigationServiceProvider.saveItem('manager.spaces', {
           title: 'Spaces',
           state: 'app.manager.spaces'
+        });
+        msNavigationServiceProvider.saveItem('manager.users', {
+            title: 'Users',
+            state: 'app.manager.users'
         });
       msNavigationServiceProvider.saveItem('manager.tiers', {
         title: 'Pricing Tiers',

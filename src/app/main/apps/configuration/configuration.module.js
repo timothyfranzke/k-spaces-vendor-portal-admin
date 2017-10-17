@@ -10,7 +10,7 @@
         baseUrl: 'http://localhost:3008/api',
         user:'/user',
         userGroup:'/user',
-        entities: '/entities',
+        entities: '/entity',
         calendar: '/event',
         spaces: '/spaces',
         search: '/search',
@@ -24,14 +24,14 @@
         }
       },
       securityApi: {
-        baseUrl: 'https://tech-spaces-security.herokuapp.com',
-        //baseUrl: 'http://localhost:3004',
+        //baseUrl: 'https://tech-spaces-security.herokuapp.com',
+        baseUrl: 'http://localhost:3009',
         token: '/token',
         login: '/login'
       },
       authentication:{
-        baseUrl: 'https://k-spaces-authentication.herokuapp.com/pages/auth',
-        //baseUrl: 'http://localhost:3003/pages/auth',
+        //baseUrl: 'https://k-spaces-authentication.herokuapp.com/pages/auth',
+        baseUrl: 'http://localhost:3000/pages/auth',
         login: '/login',
         register: '/register'
       },

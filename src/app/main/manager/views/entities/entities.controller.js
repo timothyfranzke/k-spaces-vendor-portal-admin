@@ -12,7 +12,7 @@
         var vm = this;
 
         // Data
-        vm.locations = Locations;
+        vm.entities = Entities;
         console.log("entities controller");
 
         vm.dtInstance = {};

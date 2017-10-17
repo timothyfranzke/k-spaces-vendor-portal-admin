@@ -12,10 +12,10 @@
             <div class="white-fg" layout="column" layout-align="start start">
                 <div class="h1" layout="row" layout-align="start center">
                     <md-icon class="material-icons">account_balance</md-icon>
-                    <span translate="EC.LOCATIONS">Locations</span>
+                    <span>Schools</span>
                 </div>
                 <div class="order-count secondary-text">
-                    <span>Total Entities:</span>
+                    <span>Total Subscribing Schools:</span>
                     <span>{{vm.entities.length}}</span>
                 </div>
             </div>
@@ -24,11 +24,6 @@
                 <md-icon md-font-icon="icon-magnify" class="white-text icon search-icon"></md-icon>
                 <input id="e-commerce-products-search" class="search-input" type="text" placeholder="Search"
                        translate translate-attr-placeholder="EC.SEARCH" flex>
-            </div>
-            <div>
-                <md-button class="blueButton" ng-click="vm.gotoLocationCreate()">
-                    <span translate="EC.ADD_LOCATION">Add Location</span>
-                </md-button>
             </div>
         </div>
         <!-- / CONTENT HEADER -->
@@ -61,13 +56,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="location in ::vm.locations">
+                    <tr ng-repeat="entity in ::vm.entities">
                         <td>
-                            <img src="assets/images/avatars/profile.jpg" class="avatar" width="49" height="50" ng-show="!location.hasImage" />
-                            <img data-ng-src="{{location.avatar.thumb}}" data-err-src="assets/images/avatars/profile.jpg" class="avatar" width="49" height="50" ng-show="location.hasImage" />
+                            <img src="assets/images/avatars/profile.jpg" class="avatar" width="49" height="50" ng-show="!entity.hasImage" />
+                            <img data-ng-src="{{entity.avatar.thumb}}" data-err-src="assets/images/avatars/profile.jpg" class="avatar" width="49" height="50" ng-show="entity.hasImage" />
                         </td>
                         <td>
-                            {{location.name}}
+                            {{entity.name}}
                         </td>
                         <td>
                             <md-button class="edit-button md-icon-button" ng-click="vm.goToLocationDetail(location._id)" aria-label="Location details"
