@@ -62,14 +62,14 @@
                             <img data-ng-src="{{entity.avatar.thumb}}" data-err-src="assets/images/avatars/profile.jpg" class="avatar" width="49" height="50" ng-show="entity.hasImage" />
                         </td>
                         <td>
-                            {{entity.name}}
+                            {{entity.entity_name}}
                         </td>
                         <td>
-                            <md-button class="edit-button md-icon-button" ng-click="vm.goToLocationDetail(location._id)" aria-label="Location details"
+                            <md-button class="edit-button md-icon-button" ng-click="vm.goToLocationDetail(entity._id)" aria-label="Location details"
                                        translate translate-attr-aria-label="EC.LOCATION_DETAILS">
                                 <md-icon class="material-icons">edit</md-icon>
                             </md-button>
-                            <md-button class="edit-button md-icon-button" ng-click="vm.deleteLocation(location, $event)" aria-label="Location details"
+                            <md-button class="edit-button md-icon-button" ng-click="vm.deleteLocation(entity, $event)" aria-label="Location details"
                                        translate translate-attr-aria-label="EC.LOCATION_DETAILS">
                                 <md-icon class="material-icons">delete</md-icon>
                             </md-button>

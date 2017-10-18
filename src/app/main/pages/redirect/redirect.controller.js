@@ -7,7 +7,7 @@
     .controller('RedirectController', RedirectController);
 
   /** @ngInject */
-  function RedirectController($stateParams, $state, api)
+  function RedirectController($stateParams, $state, api, managerService, CommonService)
   {
     var vm = this;
     console.log("stateParams : " +  $stateParams);
@@ -15,6 +15,9 @@
       console.log(result);
       localStorage.setItem('token', result.accessToken);
       localStorage.setItem('refreshToken', result.refreshToken);
+
+      managerService.getEntities();
+      CommonService.getProfile();
 
       $state.go ('app.calendar');
     }

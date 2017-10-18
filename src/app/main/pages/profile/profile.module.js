@@ -55,6 +55,7 @@
   /** @ngInject */
   function profileService($q, $mdToast, msApi, api, CommonService, config, $state, EventEmitter) {
     var profile = {};
+    var entity = {};
 
     var service = {
       getProfile      : getProfile,

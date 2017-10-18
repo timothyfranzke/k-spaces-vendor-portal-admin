@@ -19,6 +19,9 @@
         CommonService.getProfile().then(function(response){
           vm.user = response;
         });
+        managerService.getEntities().then(function(response){
+           vm.entity = response.entity;
+        });
 
         vm.bodyEl = angular.element('body');
         vm.userStatusOptions = [

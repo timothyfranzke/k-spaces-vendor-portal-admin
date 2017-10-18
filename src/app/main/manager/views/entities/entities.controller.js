@@ -12,8 +12,9 @@
         var vm = this;
 
         // Data
-        vm.entities = Entities;
+        vm.entities = Entities.associated_entities;
         console.log("entities controller");
+        console.log(Entities.associated_entities);
 
         vm.dtInstance = {};
         vm.dtOptions = {
