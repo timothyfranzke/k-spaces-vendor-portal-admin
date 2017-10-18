@@ -7,12 +7,14 @@
     .controller('UsersController', UsersController);
 
   /** @ngInject */
-  function UsersController($state, $mdDialog, Users, CommonService, managerService)
+  function UsersController($state, $mdDialog, Users, CommonService, managerService, Entity)
   {
     var vm = this;
 
     // Data
     vm.users = Users;
+    vm.entity = Entity;
+    console.log(vm.entity);
     console.log("users controller");
 
     vm.searchText = "";

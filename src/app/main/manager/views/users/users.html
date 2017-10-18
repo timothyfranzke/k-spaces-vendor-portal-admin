@@ -55,6 +55,11 @@
             </th>
             <th class="secondary-text">
               <div class="table-header">
+                <span class="column-title">School</span>
+              </div>
+            </th>
+            <th class="secondary-text">
+              <div class="table-header">
                 <span class="column-title">Role</span>
               </div>
             </th>
@@ -73,6 +78,9 @@
             </td>
             <td>
               {{user.legal_name.first}} {{user.legal_name.last}}
+            </td>
+            <td>
+              {{ (vm.entity.associated_entities | filter : {"_id" : user.entity_id})[0].entity_name}}
             </td>
             <td>
               {{user.role}}

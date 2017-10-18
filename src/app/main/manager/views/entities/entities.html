@@ -50,19 +50,35 @@
                         </th>
                         <th class="secondary-text">
                             <div class="table-header">
+                                <span class="column-title">Locations</span>
+                            </div>
+                        </th>
+                        <th class="secondary-text">
+                            <div class="table-header">
+                                <span class="column-title">Students</span>
+                            </div>
+                        </th>
+                        <th class="secondary-text">
+                            <div class="table-header">
                                 <span class="column-title">Actions</span>
                             </div>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="entity in ::vm.entities">
+                    <tr ng-repeat="entity in ::vm.entity.associated_entities">
                         <td>
                             <img src="assets/images/avatars/profile.jpg" class="avatar" width="49" height="50" ng-show="!entity.hasImage" />
                             <img data-ng-src="{{entity.avatar.thumb}}" data-err-src="assets/images/avatars/profile.jpg" class="avatar" width="49" height="50" ng-show="entity.hasImage" />
                         </td>
                         <td>
                             {{entity.entity_name}}
+                        </td>
+                        <td>
+                            {{ (vm.entity.locations | filter: {"entity_id":entity._id}).length }}
+                        </td>
+                        <td>
+                            {{ (vm.entity.users | filter: {"entity_id":entity._id}).length }}
                         </td>
                         <td>
                             <md-button class="edit-button md-icon-button" ng-click="vm.goToLocationDetail(entity._id)" aria-label="Location details"

@@ -12,7 +12,7 @@
         var vm = this;
 
         // Data
-        vm.entities = Entities.associated_entities;
+        vm.entity = Entities;
         console.log("entities controller");
         console.log(Entities.associated_entities);
 
@@ -26,7 +26,7 @@
                     width  : '72px'
                 },
                 {
-                    // Target the image column
+                    // Target the name column
                     targets   : 1,
                     filterable: true,
                     sortable  : true
@@ -40,7 +40,7 @@
                 },
                 {
                     // Target the actions column
-                    targets           : 2,
+                    targets           : 3,
                     responsivePriority: 1,
                     filterable        : true,
                     sortable          : false
@@ -68,7 +68,7 @@
         };
 
         // Methods
-        vm.goToLocationDetail = goToLocationDetail;
+        vm.goToEntityDetail = goToEntityDetail;
         vm.gotoLocationCreate = gotoLocationCreate;
         vm.deleteLocation     = deleteLocation;
         //////////
@@ -78,10 +78,10 @@
          *
          * @param id
          */
-        function goToLocationDetail(id)
+        function goToEntityDetail(id)
         {
-            console.log("Locaiton ID: " + id);
-            $state.go('app.manager.locations.detail', {id: id});
+            console.log("Entity ID: " + id);
+            $state.go('app.manager.entity.detail', {id: id});
         }
 
         //////////

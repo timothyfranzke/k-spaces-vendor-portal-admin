@@ -243,7 +243,10 @@
               Users: function (managerService)
               {
                 return managerService.getUsers();
-              }
+              },
+                Entity: function(managerService){
+                  return managerService.getEntities()
+                }
             },
             bodyClass: 'users'
           })
