@@ -27,7 +27,8 @@
         //baseUrl: 'https://tech-spaces-security.herokuapp.com',
         baseUrl: 'http://localhost:3009',
         token: '/token',
-        login: '/login'
+        login: '/login',
+        applicationRedirect: '/application-redirect'
       },
       authentication:{
         //baseUrl: 'https://k-spaces-authentication.herokuapp.com/pages/auth',

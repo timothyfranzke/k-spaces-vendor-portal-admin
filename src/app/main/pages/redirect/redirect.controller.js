@@ -16,9 +16,6 @@
       localStorage.setItem('token', result.accessToken);
       localStorage.setItem('refreshToken', result.refreshToken);
 
-      managerService.getEntities();
-      CommonService.getProfile();
-
       $state.go ('app.calendar');
     }
     );

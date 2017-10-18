@@ -7,7 +7,7 @@
         .controller('ToolbarController', ToolbarController);
 
     /** @ngInject */
-    function ToolbarController($rootScope, $q, $state, $timeout, $mdSidenav, $translate, $mdToast, msNavigationService, config, CommonService, managerService)
+    function ToolbarController($rootScope, $q, $state, $timeout, $mdSidenav, $translate, $mdToast, msNavigationService, config, CommonService, managerService, api)
     {
         var vm = this;
 
@@ -17,7 +17,8 @@
         };
 
         CommonService.getProfile().then(function(response){
-          vm.user = response;
+          vm.user = response.profile;
+            vm.applications = response.accessible_applications;
         });
         managerService.getEntities().then(function(response){
            vm.entity = response.entity;
@@ -81,6 +82,7 @@
         vm.toggleMsNavigationFolded = toggleMsNavigationFolded;
         vm.search = search;
         vm.searchResultClick = searchResultClick;
+        vm.goToApp = goToApp;
 
         //////////
 
@@ -98,7 +100,15 @@
             vm.selectedLanguage = vm.languages[$translate.preferredLanguage()];
         }
 
-
+        function goToApp(application){
+            api.application_redirect.get({applicationId:application.application_id}, function(result){
+                console.log(result.redirect);
+                window.location.replace(result.redirect);
+            }, function(err){
+                vm.error.show = true;
+                vm.error.message = err.data.message;
+            });
+        }
         /**
          * Toggle sidenav
          *

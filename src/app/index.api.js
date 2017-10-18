@@ -209,7 +209,7 @@
         api.token = $resource(config.securityApi.baseUrl + '/token/:id');
         api.register = $resource(config.securityApi.baseUrl + '/register-email');
         api.payPeriod = $resource(api.baseUrl + '/financial/pay-period/:id');
-
+        api.application_redirect = $resource(config.securityApi.baseUrl + '/application-redirect/:applicationId');
         api.search = $resource(api.baseUrl + config.api.search + '/:term', null);
 
         // api.sample = $resource(api.baseUrl + 'sample/sample.json');
