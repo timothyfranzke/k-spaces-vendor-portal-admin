@@ -6,12 +6,17 @@
         .controller('EventFormDialogController', EventFormDialogController);
 
     /** @ngInject */
-    function EventFormDialogController($mdDialog, dialogData, managerService)
+    function EventFormDialogController($mdDialog, dialogData, managerService, $document)
     {
         var vm = this;
-
+        vm.inviteContacts = [];
         managerService.getUsers().then(function(users){
             vm.users = users;
+            users.forEach(function(user){
+                if(user.legal_name !== undefined) {
+                    vm.inviteContacts.push(user.legal_name.first + " " + user.legal_name.last);
+                }
+            })
         });
         // Data
         vm.dialogData = dialogData;
@@ -22,6 +27,7 @@
         vm.removeEvent = removeEvent;
         vm.closeDialog = closeDialog;
         vm.searchContacts = searchContacts;
+        vm.showRepeatDialog = showRepeatDialog;
         init();
 
         //////////
@@ -86,24 +92,51 @@
             }
         }
 
+        /**
+         * Show event detail dialog
+         * @param calendarEvent
+         * @param e
+         */
+        function showRepeatDialog(e)
+        {
+            console.log(e);
+            $mdDialog.show({
+                controller         : 'EventRepeatDialogController',
+                controllerAs       : 'vm',
+                templateUrl        : 'app/main/apps/calendar/dialogs/event-repeat/event-repeat-dialog.html',
+                parent             : angular.element($document.body),
+                targetEvent        : e,
+                clickOutsideToClose: true,
+                locals             : {
+                    event              : e
+                }
+            });
+        }
+
         function searchContacts(criteria){
             var contactList = [];
-            var searchCriteria = criteria.split;
-            Users.forEach(function(user){
-                if(searchCriteria.length > 1)
-                {
-                    if(user.legal_name.first.startsWith(searchCriteria[0]) && user.legal_name.last.startsWith(searchCriteria[1]))
+            var searchCriteria = criteria.split(" ");
+            console.log(criteria);
+            console.log(vm.users);
+            vm.users.forEach(function(user){
+                if(user.legal_name !== undefined){
+                    if(searchCriteria.length > 1)
                     {
-                        contactList.push(user);
+                        if(user.legal_name.first.startsWith(searchCriteria[0]) && user.legal_name.last.startsWith(searchCriteria[1]))
+                        {
+                            contactList.push(user);
+                        }
+                    }
+                    else{
+                        console.log(user.legal_name);
+                        if(user.legal_name.first.startsWith(criteria) || user.legal_name.last.startsWith(criteria)){
+                            contactList.push(user);
+                        }
                     }
                 }
-                else{
-                    if(user.legal_name.first.startsWith(criteria) || user.legal_name.last.startsWith(criteria)){
-                        contactList.push(user);
-                    }
-                }
-
             })
+            console.log(contactList);
+            return contactList;
         }
 
         /**

@@ -46,20 +46,31 @@
                            translate-attr-placeholder="CALENDAR.END_TIME" type="time">
                 </md-input-container>
             </div>
-
+            <md-button ng-click="vm.showRepeatDialog($event)">Repeat</md-button>
             <md-input-container class="md-block" flex>
-                <label translate="CALENDAR.REPEAT">Repeat</label>
+                <label>Repeat</label>
                 <input ng-model="vm.calendarEvent.repeat">
             </md-input-container>
 
-            <md-input-container class="md-block" flex>
-                <label translate="CALENDAR.LOCATION">Location</label>
-                <input ng-model="vm.calendarEvent.location">
-            </md-input-container>
-
-            <div class="notifications" layout="column">
+            <!--<div class="notifications" layout="column">
                 <div class="title">Invities</div>
-                <md-contact-chips
+
+                <form name="fruitForm">
+                    <md-chips ng-model="vm.inviteContacts" name="fruitName" readonly="false"
+                              md-removable="true" md-max-chips="5" placeholder="Enter a fruit...">
+                        <md-chip-template>
+                            <strong>{{$chip}}</strong>
+                            <em>(fruit)</em>
+                        </md-chip-template>
+                    </md-chips>
+                    <div class="errors" ng-messages="fruitForm.fruitName.$error">
+                        <div ng-message="md-max-chips">Maximum number of chips reached.</div>
+                    </div>
+                    <div class="errors" ng-messages="fruitForm.fruitName.$error">
+                        <div ng-message="md-max-chips">Maximum number of chips reached.</div>
+                    </div>
+                </form>
+                &lt;!&ndash;<md-contact-chips
                         ng-model="vm.inviteContacts"
                         md-contacts="vm.searchContacts($query)"
                         md-contact-name="legal_name.first legal_name.last"
@@ -67,9 +78,10 @@
                         md-contact-email="email"
                         md-require-match="true"
                         md-highlight-flags="i"
-                        filter-selected="ctrl.filterSelected"
+                        md-item-text=""
+                        filter-selected="true"
                         placeholder="To">
-                </md-contact-chips>
+                </md-contact-chips>&ndash;&gt;
 
 
 
@@ -84,7 +96,7 @@
                            translate-attr-aria-label="CALENDAR.ADD_NOTIFICATION">
                     + Add Another Notification
                 </md-button>
-            </div>
+            </div>-->
 
             <md-input-container flex class="md-block textarea-container">
                 <label translate="CALENDAR.NOTES">Notes</label>
