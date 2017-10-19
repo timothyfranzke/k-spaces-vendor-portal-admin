@@ -6,10 +6,13 @@
         .controller('EventFormDialogController', EventFormDialogController);
 
     /** @ngInject */
-    function EventFormDialogController($mdDialog, dialogData)
+    function EventFormDialogController($mdDialog, dialogData, managerService)
     {
         var vm = this;
 
+        managerService.getUsers().then(function(users){
+            vm.users = users;
+        });
         // Data
         vm.dialogData = dialogData;
         vm.notifications = ['15 minutes before', '30 minutes before', '1 hour before'];
@@ -18,7 +21,7 @@
         vm.saveEvent = saveEvent;
         vm.removeEvent = removeEvent;
         vm.closeDialog = closeDialog;
-
+        vm.searchContacts = searchContacts;
         init();
 
         //////////
@@ -81,6 +84,26 @@
                     notifications: []
                 };
             }
+        }
+
+        function searchContacts(criteria){
+            var contactList = [];
+            var searchCriteria = criteria.split;
+            Users.forEach(function(user){
+                if(searchCriteria.length > 1)
+                {
+                    if(user.legal_name.first.startsWith(searchCriteria[0]) && user.legal_name.last.startsWith(searchCriteria[1]))
+                    {
+                        contactList.push(user);
+                    }
+                }
+                else{
+                    if(user.legal_name.first.startsWith(criteria) || user.legal_name.last.startsWith(criteria)){
+                        contactList.push(user);
+                    }
+                }
+
+            })
         }
 
         /**

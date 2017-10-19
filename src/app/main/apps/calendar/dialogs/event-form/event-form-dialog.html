@@ -58,6 +58,21 @@
             </md-input-container>
 
             <div class="notifications" layout="column">
+                <div class="title">Invities</div>
+                <md-contact-chips
+                        ng-model="vm.inviteContacts"
+                        md-contacts="vm.searchContacts($query)"
+                        md-contact-name="legal_name.first legal_name.last"
+                        md-contact-image="avatar.full"
+                        md-contact-email="email"
+                        md-require-match="true"
+                        md-highlight-flags="i"
+                        filter-selected="ctrl.filterSelected"
+                        placeholder="To">
+                </md-contact-chips>
+
+
+
                 <div class="title" translate="CALENDAR.NOTIFICATIONS">Notifications</div>
 
                 <md-select ng-model="notification" placeholder="Notification"
