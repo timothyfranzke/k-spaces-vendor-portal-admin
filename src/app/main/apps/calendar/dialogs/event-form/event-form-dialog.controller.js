@@ -10,6 +10,10 @@
     {
         var vm = this;
         vm.inviteContacts = [];
+        vm.selectedTab = 1;
+        vm.every = ["Never", "Every"];
+        vm.attributes = ["Days", "Weeks", "Months"];
+
         managerService.getUsers().then(function(users){
             vm.users = users;
             users.forEach(function(user){
@@ -28,6 +32,9 @@
         vm.closeDialog = closeDialog;
         vm.searchContacts = searchContacts;
         vm.showRepeatDialog = showRepeatDialog;
+        vm.selectTab      = selectTab;
+        vm.getNumber      = getNumber;
+
         init();
 
         //////////
@@ -87,7 +94,12 @@
                 vm.calendarEvent = {
                     start        : vm.dialogData.start,
                     end          : vm.dialogData.end,
-                    notifications: []
+                    notifications: [],
+                    repeat       : {
+                        every    : "Never",
+                        number   : 1,
+                        frequency: "Days"
+                    }
                 };
             }
         }
@@ -197,6 +209,14 @@
         function closeDialog()
         {
             $mdDialog.cancel();
+        }
+
+        function selectTab(tab){
+            vm.selectedTab = tab;
+        }
+
+        function getNumber(){
+            return new Array(100);
         }
     }
 })();

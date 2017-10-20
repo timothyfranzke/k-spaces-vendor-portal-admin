@@ -46,6 +46,28 @@
                            translate-attr-placeholder="CALENDAR.END_TIME" type="time">
                 </md-input-container>
             </div>
+            <md-list>
+                <md-list-item>
+                    <md-input-container style="margin-right: 10px;">
+                        <label>Repeat</label>
+                        <md-select ng-model="vm.calendarEvent.repeat.every">
+                            <md-option ng-repeat="size in vm.every" value="{{size}}">{{size}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container style="margin-right: 10px;" ng-show="vm.calendarEvent.repeat.every === 'Every'">
+                        <label>Number</label>
+                        <md-select ng-model="vm.calendarEvent.repeat.number" >
+                            <md-option ng-repeat="i in vm.getNumber() track by $index" value="{{$index+1}} ">{{$index+1}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container style="margin-right: 10px;" ng-show="vm.calendarEvent.repeat.every === 'Every'">
+                        <label>Frequency</label>
+                        <md-select ng-model="vm.calendarEvent.repeat.frequency">
+                            <md-option ng-repeat="size in vm.attributes" value="{{size}}">{{size}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-list-item>
+            </md-list>
             <md-button ng-click="vm.showRepeatDialog($event)">Repeat</md-button>
             <md-input-container class="md-block" flex>
                 <label>Repeat</label>
@@ -54,7 +76,6 @@
 
             <!--<div class="notifications" layout="column">
                 <div class="title">Invities</div>
-
                 <form name="fruitForm">
                     <md-chips ng-model="vm.inviteContacts" name="fruitName" readonly="false"
                               md-removable="true" md-max-chips="5" placeholder="Enter a fruit...">
@@ -82,21 +103,17 @@
                         filter-selected="true"
                         placeholder="To">
                 </md-contact-chips>&ndash;&gt;
-
-
-
                 <div class="title" translate="CALENDAR.NOTIFICATIONS">Notifications</div>
-
                 <md-select ng-model="notification" placeholder="Notification"
                            ng-repeat="notification in vm.calendarEvent.notifications">
                     <md-option ng-repeat="opt in vm.notifications" value="{{opt}}">{{opt}}</md-option>
                 </md-select>
-
                 <md-button aria-label="+ Add Another Notification" translate="CALENDAR.ADD_NOTIFICATION"
                            translate-attr-aria-label="CALENDAR.ADD_NOTIFICATION">
                     + Add Another Notification
                 </md-button>
             </div>-->
+
 
             <md-input-container flex class="md-block textarea-container">
                 <label translate="CALENDAR.NOTES">Notes</label>

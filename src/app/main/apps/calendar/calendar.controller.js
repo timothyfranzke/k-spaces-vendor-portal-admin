@@ -7,7 +7,7 @@
         .controller('CalendarController', CalendarController);
 
     /** @ngInject */
-    function CalendarController($mdDialog, $document, api, Events)
+    function CalendarController($mdDialog, $document, api, Events, CommonService)
     {
         var vm = this;
 
@@ -16,103 +16,47 @@
         var d = date.getDate();
         var m = date.getMonth();
         var y = date.getFullYear();
+        var events = [];
+        vm.events = [];
 
-        vm.events = [
-            [
-                {
-                    id   : 1,
-                    title: 'All Day Event',
-                    start: new Date(y, m, 1),
-                    end  : null
-                },
-                {
-                    id   : 2,
-                    title: 'Long Event',
-                    start: new Date(y, m, d - 5),
-                    end  : new Date(y, m, d - 2)
-                },
-                {
-                    id   : 3,
-                    title: 'Some Event',
-                    start: new Date(y, m, d - 3, 16, 0),
-                    end  : null
-                },
-                {
-                    id   : 4,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d + 4, 16, 0),
-                    end  : null
-                },
-                {
-                    id   : 5,
-                    title: 'Birthday Party',
-                    start: new Date(y, m, d + 1, 19, 0),
-                    end  : new Date(y, m, d + 1, 22, 30)
-                },
-                {
-                    id   : 6,
-                    title: 'All Day Event',
-                    start: new Date(y, m, d + 8, 16, 0),
-                    end  : null
-                },
-                {
-                    id   : 7,
-                    title: 'Long Event',
-                    start: new Date(y, m, d + 12, 16, 0),
-                    end  : null
-                },
-                {
-                    id   : 8,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d + 14, 2, 0),
-                    end  : null
-                },
-                {
-                    id   : 9,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d + 14, 4, 0),
-                    end  : null
-                },
-                {
-                    id   : 10,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d + 14, 2, 0),
-                    end  : null
-                },
-                {
-                    id   : 11,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d + 14, 4, 0),
-                    end  : null
-                },
-                {
-                    id   : 12,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d + 14, 2, 0),
-                    end  : null
-                },
-                {
-                    id   : 13,
-                    title: 'Repeating Event',
-                    start: new Date(y, m, d + 14, 4, 0),
-                    end  : null
-                },
-                {
-                    id   : 14,
-                    title: 'Conference',
-                    start: new Date(y, m, d + 17, 4, 0),
-                    end  : null
-                },
-                {
-                    id   : 15,
-                    title: 'Meeting',
-                    start: new Date(y, m, d + 22, 4, 0),
-                    end  : new Date(y, m, d + 24, 4, 0)
+        //find all repeating events
+        Events.data.forEach(function(event){
+            events.push(event);
+            if(event.repeat !== undefined)
+            {
+                if(event.repeat.every === 'Every'){
+                    var newEvent = {
+                        _id      : event._id,
+                        start    : event.start,
+                        end      : event.end,
+                        title    : event.title
+                    };
+
+                    for(var i = 0; i < 20; i++){
+
+                        switch(event.repeat.frequency){
+                            case 'Days':
+                                newEvent.start = CommonService.addDays(newEvent.start, parseInt(event.repeat.number.trim())).toISOString();
+                                newEvent.end = CommonService.addDays(newEvent.end, parseInt(event.repeat.number.trim())).toISOString();
+                                break;
+                            case 'Weeks':
+                                newEvent.start = CommonService.addDays(newEvent.start, parseInt(event.repeat.number.trim()) * 7).toISOString();
+                                newEvent.end = CommonService.addDays(newEvent.end, parseInt(event.repeat.number.trim()) * 7).toISOString();
+                                break;
+                            case 'Months':
+                                newEvent.start = CommonService.addMonths(newEvent.start, parseInt(event.repeat.number.trim())).toISOString();
+                                newEvent.end = CommonService.addMonths(newEvent.end, parseInt(event.repeat.number.trim())).toISOString();
+                                break;
+                        }
+                        events.push(newEvent);
+                        newEvent = JSON.parse(JSON.stringify(newEvent));
+                        i++;
+                    }
                 }
-            ]
-        ];
-
-        vm.events[0] = Events.data;
+            }
+        });
+        vm.events[0] = events;
+        console.log(events);
 
         vm.calendarUiConfig = {
             calendar: {
@@ -258,7 +202,8 @@
                         var event = {
                           title: response.calendarEvent.title,
                           start: response.calendarEvent.start,
-                          end  : response.calendarEvent.end
+                          end  : response.calendarEvent.end,
+                          repeat : response.calendarEvent.repeat
                         };
                         api.event.save(event, function(res){
                           event._id = res;
@@ -280,7 +225,8 @@
                                 var event = {
                                   title: response.calendarEvent.title,
                                   start: response.calendarEvent.start,
-                                  end  : response.calendarEvent.end
+                                  end  : response.calendarEvent.end,
+                                    repeat : response.calendarEvent.repeat
                                 };
                                 vm.events[0][i] = event;
                                 api.event.update({id:response.calendarEvent._id}, event);
