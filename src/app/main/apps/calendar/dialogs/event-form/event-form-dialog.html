@@ -5,7 +5,7 @@
                 <span class="title">{{vm.dialogTitle}}</span>
                 <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog" translate
                            translate-attr-aria-label="CALENDAR.CLOSE_DIALOG">
-                    <md-icon md-font-icon="icon-close"></md-icon>
+                    <md-icon class="material-icons">close</md-icon>
                 </md-button>
             </div>
         </md-toolbar>
@@ -68,13 +68,7 @@
                     </md-input-container>
                 </md-list-item>
             </md-list>
-            <md-button ng-click="vm.showRepeatDialog($event)">Repeat</md-button>
-            <md-input-container class="md-block" flex>
-                <label>Repeat</label>
-                <input ng-model="vm.calendarEvent.repeat">
-            </md-input-container>
-
-            <!--<div class="notifications" layout="column">
+            <div class="notifications" layout="column">
                 <div class="title">Invities</div>
                 <form name="fruitForm">
                     <md-chips ng-model="vm.inviteContacts" name="fruitName" readonly="false"
@@ -91,28 +85,37 @@
                         <div ng-message="md-max-chips">Maximum number of chips reached.</div>
                     </div>
                 </form>
-                &lt;!&ndash;<md-contact-chips
-                        ng-model="vm.inviteContacts"
-                        md-contacts="vm.searchContacts($query)"
-                        md-contact-name="legal_name.first legal_name.last"
-                        md-contact-image="avatar.full"
-                        md-contact-email="email"
-                        md-require-match="true"
-                        md-highlight-flags="i"
-                        md-item-text=""
-                        filter-selected="true"
-                        placeholder="To">
-                </md-contact-chips>&ndash;&gt;
-                <div class="title" translate="CALENDAR.NOTIFICATIONS">Notifications</div>
-                <md-select ng-model="notification" placeholder="Notification"
-                           ng-repeat="notification in vm.calendarEvent.notifications">
-                    <md-option ng-repeat="opt in vm.notifications" value="{{opt}}">{{opt}}</md-option>
-                </md-select>
-                <md-button aria-label="+ Add Another Notification" translate="CALENDAR.ADD_NOTIFICATION"
-                           translate-attr-aria-label="CALENDAR.ADD_NOTIFICATION">
-                    + Add Another Notification
-                </md-button>
-            </div>-->
+                <md-content class="md-padding autocomplete" layout="column">
+                    <md-contact-chips
+                            ng-model="vm.contacts"
+                            md-contacts="vm.querySearch($query)"
+                            md-contact-name="name"
+                            md-contact-image="image"
+                            md-contact-email="email"
+                            md-require-match="true"
+                            md-highlight-flags="i"
+                            filter-selected="vm.filterSelected"
+                            placeholder="To">
+                    </md-contact-chips>
+
+                    <md-list class="fixedRows">
+                        <md-subheader class="md-no-sticky">Contacts</md-subheader>
+                        <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in vm.allContacts" ng-if="vm.contacts.indexOf(contact) < 0">
+                            <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}">
+                            <div class="md-list-item-text compact">
+                                <h3>{{contact.name}}</h3>
+                                <p>{{contact.email}}</p>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in vm.contacts">
+                            <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}">
+                            <div class="md-list-item-text compact">
+                                <h3>{{contact.name}}</h3>
+                                <p>{{contact.email}}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+            </div>
 
 
             <md-input-container flex class="md-block textarea-container">

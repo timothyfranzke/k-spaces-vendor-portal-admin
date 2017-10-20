@@ -8,32 +8,40 @@
     /** @ngInject */
     function EventFormDialogController($mdDialog, dialogData, managerService, $document)
     {
-        var vm = this;
-        vm.inviteContacts = [];
-        vm.selectedTab = 1;
-        vm.every = ["Never", "Every"];
-        vm.attributes = ["Days", "Weeks", "Months"];
+        var vm              = this;
+        vm.inviteContacts   = [];
+        vm.selectedTab      = 1;
+        vm.every            = ["Never", "Every"];
+        vm.attributes       = ["Days", "Weeks", "Months"];
+        vm.querySearch      = querySearch;
+
+        vm.filterSelected = true;
+        vm.users = [];
 
         managerService.getUsers().then(function(users){
-            vm.users = users;
             users.forEach(function(user){
-                if(user.legal_name !== undefined) {
-                    vm.inviteContacts.push(user.legal_name.first + " " + user.legal_name.last);
+                if(user.legal_name !== undefined && user.legal_name.first !== undefined && user.legal_name.last !== undefined) {
+                    vm.users.push(user);
                 }
-            })
+            });
+            managerService.getSpaces().then(function(spaces){
+                vm.spaces = spaces;
+                vm.allContacts = loadContacts();
+                vm.contacts = [vm.allContacts[0]];
+            });
         });
         // Data
         vm.dialogData = dialogData;
         vm.notifications = ['15 minutes before', '30 minutes before', '1 hour before'];
 
         // Methods
-        vm.saveEvent = saveEvent;
-        vm.removeEvent = removeEvent;
-        vm.closeDialog = closeDialog;
-        vm.searchContacts = searchContacts;
+        vm.saveEvent        = saveEvent;
+        vm.removeEvent      = removeEvent;
+        vm.closeDialog      = closeDialog;
+        vm.searchContacts   = searchContacts;
         vm.showRepeatDialog = showRepeatDialog;
-        vm.selectTab      = selectTab;
-        vm.getNumber      = getNumber;
+        vm.selectTab        = selectTab;
+        vm.getNumber        = getNumber;
 
         init();
 
@@ -146,7 +154,7 @@
                         }
                     }
                 }
-            })
+            });
             console.log(contactList);
             return contactList;
         }
@@ -217,6 +225,65 @@
 
         function getNumber(){
             return new Array(100);
+        }
+
+        /**
+         * Search for contacts.
+         */
+        function querySearch (query) {
+            var results = query ?
+                vm.allContacts.filter(createFilterFor(query)) : [];
+            return results;
+        }
+
+        /**
+         * Create filter function for a query string
+         */
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(contact) {
+                return (contact._lowername.indexOf(lowercaseQuery) != -1);
+            };
+
+        }
+
+        function loadContacts() {
+            var contacts = [];
+            var moreContacts = [];
+            console.log(vm.users);
+            if(vm.users !== undefined){
+                contacts = vm.users.concat(vm.spaces);
+
+                console.log(contacts);
+                return contacts.map(function (user, index) {
+                    if(user != undefined)
+                    {
+                        if(user.legal_name != undefined){
+                            var contact = {
+                                name: user.legal_name.first + ' ' + user.legal_name.last + ' (' + user.role + ')',
+                                email: user.email,
+                                image: (user.avatar.thumb != undefined && user.avatar.thumb != "") ? user.avatar.thumb : 'assets/images/avatars/profile.jpg',
+                                _id : user._id
+                            };
+                            contact._lowername = contact.name.toLowerCase();
+                            return contact;
+                        }
+                        else if(user.name != undefined){
+                            var contact = {
+                                name: user.name + ' (space)',
+                                email: "",
+                                image: (user.avatar.thumb != undefined && user.avatar.thumb != "") ? user.avatar.thumb : 'assets/images/avatars/profile.jpg',
+                                _id : user._id
+                            };
+                            contact._lowername = contact.name.toLowerCase();
+                            return contact;
+                        }
+                    }
+                    return {};
+                });
+            }
+            return contacts;
         }
     }
 })();
