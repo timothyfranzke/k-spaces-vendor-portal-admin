@@ -35,9 +35,9 @@
 
       var service = {
 
-        getEntities      : getEntities,
-        getLocations     : getLocations,
-        getLocation      : getLocation,
+        getEntities       : getEntities,
+        getLocations      : getLocations,
+        getLocation       : getLocation,
         createLocation    : createLocation,
         updateLocation    : updateLocation,
         newLocation       : newLocation,

@@ -7,7 +7,9 @@
             [
                 // 3rd Party Dependencies
                 'ui.calendar',
-                'app.configuration'
+                'app.configuration',
+                'app.services',
+                'ngSanitize'
             ]
         )
         .config(configuration);
@@ -24,19 +26,12 @@
                     controller : 'CalendarController as vm'
                 }
             },
-          resolve: {
-            Events: function (msApi)
-            {
-              return msApi.resolve('calendar.events@get');
-            }
-          },
             bodyClass: 'calendar'
         });
 
         // Translation
         $translatePartialLoaderProvider.addPart('app/main/apps/calendar');
 
-        msApiProvider.register('calendar.events', [config.api.baseUrl + config.api.calendar]);
         // Navigation
         msNavigationServiceProvider.saveItem('calendar', {
             title : 'Calendar',

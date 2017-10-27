@@ -31,8 +31,10 @@
             'app.notes',
             'app.configuration',
             'app.manager',
+
             //Services
             'app.common',
+            'app.services',
             'app.avatar-generator'
         ]);
 })();
