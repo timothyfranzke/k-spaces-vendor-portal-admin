@@ -15,14 +15,18 @@
         $rootScope.global = {
             search: ''
         };
+        CommonService.commonEventLoop.tokenGenerated.register(function(){
+            console.log("token generated");
+            console.log(localStorage.getItem('token'));
+            CommonService.getProfile().then(function(response){
+                vm.user = response.profile;
+                vm.applications = response.accessible_applications;
+            });
+            managerService.getEntities().then(function(response){
+                vm.entity = response.entity;
+            });
+        });
 
-        CommonService.getProfile().then(function(response){
-          vm.user = response.profile;
-            vm.applications = response.accessible_applications;
-        });
-        managerService.getEntities().then(function(response){
-           vm.entity = response.entity;
-        });
 
         vm.bodyEl = angular.element('body');
         vm.userStatusOptions = [

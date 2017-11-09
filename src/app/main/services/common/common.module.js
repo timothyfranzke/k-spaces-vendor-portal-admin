@@ -13,15 +13,29 @@
     function CommonService($q, $mdToast, config, api)
     {
         var profile = {};
+        var commonEventLoop = {
+            tokenGenerated : {
+                events      : [],
+                register    : function(event) {
+                    this.events.push(event);
+                },
+                emit        : function(){
+                    this.events.forEach(function(event){
+                        event();
+                    })
+                }
+            }
+        };
         var service = {
-            setToast      : setToast,
-            confirmDialog : confirmDialog,
-            getProfile    : getProfile,
-            isEmptyObject : isEmpty,
-            generateId    : generateId,
-            searchUser    : searchUser,
-            addDays       : addDays,
-            addMonths     : addMonths,
+            setToast        : setToast,
+            confirmDialog   : confirmDialog,
+            getProfile      : getProfile,
+            isEmptyObject   : isEmpty,
+            generateId      : generateId,
+            searchUser      : searchUser,
+            addDays         : addDays,
+            addMonths       : addMonths,
+            commonEventLoop : commonEventLoop
         };
 
         function setToast (message, type){
@@ -238,5 +252,6 @@
         dat.setMonth(dat.getMonth() + number);
         return dat;
     }
+
 })();
 
